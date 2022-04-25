@@ -3,6 +3,8 @@
 import yaml
 
 from boto3 import client
+from botocore.exceptions import ClientError
+
 
 class SESSend:
     """
@@ -10,15 +12,16 @@ class SESSend:
     """
 
     def __init__(self, config_file="config.yaml"):
+        """
+        Keywords:
+            config_file (str): Full path to config
+        """
 
         self.config_file = config_file
 
     def _read_config(self):
         """
         Reads the yaml config file
-
-        Keywords:
-            config_file (string): Full path to config
 
         Returns:
             config (dict)
@@ -46,13 +49,23 @@ class SESSend:
 
     def send_email(self):
         """
+        Sends the email
 
+        Returns:
+            True (bool): If successful
         """
+
         config = self._read_config()
 
         ses_client = client("ses", region_name=config["region_name"])
-        ses_client.send_email(
-            Destination = config["destination"],
-            Message = config["message"],
-            Source = config["source"],
-        )
+        try:
+            ses_client.send_email(
+                Destination=config["destination"],
+                Message=config["message"],
+                Source=config["source"],
+            )
+
+        except ClientError as e:
+            raise Exception(e.response["Error"]["Message"])
+
+        return True

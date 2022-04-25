@@ -1,7 +1,0 @@
-email:
-  destination_address: glenn@dronemusic.co
-  source_address: automation@dronemusic.co
-  subject: Autmation notification from dronemusic.co
-  message: dronemusic.co s3 bucket has been modified
-aws:
-  region: us-east-1
