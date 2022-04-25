@@ -1,0 +1,7 @@
+email:
+  destination_address: youremail@gmail.com
+  source_address: automation@yourdomain.com
+  subject: Autmation notification 
+  message: This is a notification
+aws:
+  region: us-east-1
