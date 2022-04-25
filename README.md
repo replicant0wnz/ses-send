@@ -33,6 +33,7 @@ aws:
 
 from ses_send import SESSend
 
+# You can omit the config_file keyword if you have config.yaml in the current path
 x = SESSend(config_file="/path/to/config")
 x.send_email()
 
