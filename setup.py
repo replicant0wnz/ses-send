@@ -1,3 +1,4 @@
+import os
 import setuptools
 
 with open("README.md", "r", encoding="utf-8") as fh:
@@ -5,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="ses-send-replicant0wnz",
-    version="0.0.1",
+    version=os.environ['BUILD_VERSION'],
     author="Glenn E. Bailey III",
     author_email="glenn@dronemusic.co",
     description="Simple wrapper to send emails via AWS SES",
