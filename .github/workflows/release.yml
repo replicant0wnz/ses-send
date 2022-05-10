@@ -10,7 +10,7 @@ env:
 
 jobs:
   build_package_publish:
-    name: "init → build → deploy"
+    name: "test → build → release"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,12 +18,12 @@ jobs:
 
       - name: test
         run: |
-          make init
+          make test
           
       - name: build
         run: |
           make version=$GITHUB_REF_NAME build
           
-      - name: deploy
+      - name: release
         run: |
           make release token=$PYPI_TOKEN
