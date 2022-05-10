@@ -1,0 +1,29 @@
+name: release
+
+on: 
+  push:
+    tags:
+      - 1.*
+
+env:
+  PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+
+jobs:
+  build_package_publish:
+    name: "init → build → deploy"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: test
+        run: |
+          make init
+          
+      - name: build
+        run: |
+          make version=$GITHUB_REF_NAME build
+          
+      - name: deploy
+        run: |
+          make release token=$PYPI_TOKEN
