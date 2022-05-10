@@ -26,4 +26,4 @@ jobs:
           
       - name: deploy_test
         run: |
-          make deply_test token=$PYPI_TOKEN_TEST
+          make release_test token=$PYPI_TOKEN_TEST
