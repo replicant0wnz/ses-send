@@ -29,7 +29,10 @@ class SESSend:
 
         config = {}
 
-        f = open(self.config_file)
+        try:
+            f = open(self.config_file)
+        except ClientError as e:
+            raise Exception(e.response["Error"]["Message"])
 
         config_yaml = yaml.load(f.read(), Loader=yaml.FullLoader)
 

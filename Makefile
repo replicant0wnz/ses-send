@@ -15,7 +15,7 @@ JQ=$(DOCKER) run -i $(JQ_CONTAINER) -c
 DOCKER_RUN=$(DOCKER) run -u $(UID) -v $(SOURCE_PATH):$(WORKING_PATH) -w $(WORKING_PATH)
 
 # Python config
-PYTHON_CONTAINER=build-python:local
+PYTHON_CONTAINER=public.ecr.aws/replicant0wnz/build-python:latest
 PYPI_USERNAME=__token__
 PYPI_PASSWORD=$(token)
 
@@ -34,6 +34,10 @@ AWS=$(DOCKER) run -e AWS_SECRET_ACCESS_KEY=$$AWS_SECRET_ACCESS_KEY -e AWS_ACCESS
 #DISTRIBUTION_ID := $(shell cat $(CONFIG) | $(JQ) .aws.cloudfront.distribution_id)
 #INVALIDATION_PATH := $(shell cat $(CONFIG) | $(JQ) .aws.cloudfront.invalidation_path) 
 
+list:
+	# List options of nothing specified
+	grep '^[^#[:space:]].*:' Makefile
+
 test:
 	$(DOCKER_RUN) $(PYTHON_CONTAINER) python -m pytest tests
 
@@ -41,12 +45,14 @@ build:
 	$(DOCKER_RUN) -e BUILD_VERSION=$(version) $(PYTHON_CONTAINER) python -m build
 
 release:
-	$(GH) gh release create $(version) dist.tar.gz --generate-notes
+
+deploy_test:
+	$(DOCKER_RUN) -e TWINE_USERNAME=$(PYPI_USERNAME) -e TWINE_PASSWORD=$(PYPI_PASSWORD) $(PYTHON_CONTAINER) python -m twine upload --verbose --repository testpypi dist/*
 
 deploy:
-	$(DOCKER_RUN) -e TWINE_USERNAME=$(PYPI_USERNAME) -e TWINE_PASSWORD=$(PYPI_PASSWORD) $(PYTHON_CONTAINER) python -m twine upload --repository testpypi dist/*
+	$(DOCKER_RUN) -e TWINE_USERNAME=$(PYPI_USERNAME) -e TWINE_PASSWORD=$(PYPI_PASSWORD) $(PYTHON_CONTAINER) python -m twine upload --verbose dist/*
 
 clean:
-	rm -rf dist .pytest_cache
+	rm -rf dist .pytest_cache src/*egg-info
 
 all: init build package
