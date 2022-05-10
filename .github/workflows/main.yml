@@ -10,12 +10,16 @@ env:
 
 jobs:
   build_package_publish:
-    name: "test → build → release_test"
+    name: "black → test → build → release_test"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@master
 
+      - name: black
+        run: |
+          make black
+          
       - name: test
         run: |
           make test

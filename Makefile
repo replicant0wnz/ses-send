@@ -19,6 +19,9 @@ list:
 	# List options of nothing specified
 	grep '^[^#[:space:]].*:' Makefile
 
+black:
+	$(DOCKER_RUN) $(PYTHON_CONTAINER) black src/ses_send/send.py
+
 test:
 	$(DOCKER_RUN) $(PYTHON_CONTAINER) python -m pytest tests
 
@@ -34,4 +37,4 @@ release:
 clean:
 	rm -rf dist .pytest_cache src/*egg-info
 
-all: test build
+all: black test build
