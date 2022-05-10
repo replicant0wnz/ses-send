@@ -10,7 +10,7 @@ env:
 
 jobs:
   build_package_publish:
-    name: "init → build → release_test"
+    name: "test → build → release_test"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,7 +18,7 @@ jobs:
 
       - name: test
         run: |
-          make init
+          make test
           
       - name: build
         run: |
