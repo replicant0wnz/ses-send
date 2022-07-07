@@ -3,6 +3,7 @@
 [![Releases](https://img.shields.io/github/v/release/replicant0wnz/ses-send)](https://github.com/replicant0wnz/ses-send/releases)
 [![Latest commit](https://img.shields.io/github/last-commit/replicant0wnz/ses-send)](https://github.com/replicant0wnz/ses-send/commits/main)
 [![LICENSE](https://img.shields.io/github/license/replicant0wnz/ses-send)](https://github.com/replicant0wnz/ses-send/blob/main/LICENSE)
+
 Simple wrapper to send emails via [AWS SES](https://docs.aws.amazon.com/ses/latest/dg/Welcome.html)
 
 ## Description
